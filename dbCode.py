@@ -23,9 +23,6 @@ def execute_query(query, args = ()):
     finally:
         conn.close()
 
-
-
-
 def get_list_of_dictionaries():
     query = "SELECT Name, Population FROM country LIMIT 10;"
     return execute_query(query)
