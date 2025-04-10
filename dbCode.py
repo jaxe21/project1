@@ -14,7 +14,7 @@ def get_conn():
 
 
 def execute_query(query, args = ()):
-    conn = get_conn
+    conn = get_conn()
     try:
         with conn.cursor() as cur:
             cur.execute(query, args)

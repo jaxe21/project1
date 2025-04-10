@@ -16,8 +16,9 @@ def home():
 
 @app.route("/index")
 def index():
-    #countries = get_list_of_dictionaries()
-    return render_template("index.html")#, results = countries)
+    countries = get_list_of_dictionaries()
+    print("Countries:", countries)
+    return render_template("index.html", results = countries)
 
 
 if __name__ == '__main__':
