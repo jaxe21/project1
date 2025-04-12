@@ -1,7 +1,7 @@
 import pymysql
 import pymysql.cursors
 import creds
-import boto3
+#import boto3
 
 def get_conn():
     return pymysql.connect(
@@ -25,4 +25,9 @@ def execute_query(query, args = ()):
 
 def get_list_of_dictionaries():
     query = "SELECT Name, Population FROM country LIMIT 10;"
+    return execute_query(query)
+
+
+def get_top_10_of_city():
+    query = ""
     return execute_query(query)
