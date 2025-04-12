@@ -1,7 +1,7 @@
 import pymysql
 import pymysql.cursors
 import creds
-import boto3
+#import boto3
 
 def get_conn():
     return pymysql.connect(
