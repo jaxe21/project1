@@ -18,26 +18,30 @@ def index():
     return render_template("index.html", results = countries)
 
 
-@app.route('/create-user', methods=['GET', 'POST'])
+@app.route('/create_user', methods=['GET', 'POST'])
 def create_user():
     if request.method == 'POST':
         # Extract form data
+        email = request.form['email']
         firstname= request.form['first_name']
         lastname = request.form['last_name']
+
+        try:
+            add_new_user(email, firstname, lastname)
+            flash('User added successfully!', 'success')  # 'success' is a category; makes a green banner at the top
         
-        # Process the data (e.g., add it to a database)
-        # For now, let's just print it to the console
-        print("First Name:", firstname, " ", lastname)
-        
-        flash('User added successfully!', 'success')  # 'success' is a category; makes a green banner at the top
+        except Exception:
+            print("Something went wrong. Please Try again")
+
         # Redirect to home page or another page upon successful submission
         return redirect(url_for('home'))
     else:
         # Render the form page if the request method is GET
+
         return render_template('create_user.html')
 
 @app.route('/sign-in', methods=['GET', 'POST'])
-def delete_user():
+def sign_in():
     if request.method == 'POST':
         # Extract form data
         name = request.form['name']
