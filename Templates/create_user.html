@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Create New User</title>
+</head>
+<body>
+    <h1>Create New User</h1>
+    <form action="{{ url_for('create_user') }}" method="post">
+        <label for="email">email address:</label><br>
+        <input type="text" id="email" name="email" required><br>
+        <label for="first_name">First Name:</label><br>
+        <input type="text" id="first_name" name="first_name" required><br>
+        <label for="last_name">Last Name:</label><br>
+        <input type="text" id="last_name" name="last_name" required><br>
+        <input type="submit" value="Submit">
+        
+    </form>
+</body>
+</html>
