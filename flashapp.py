@@ -28,17 +28,54 @@ def create_user():
 
         try:
             add_new_user(email, firstname, lastname)
-            flash('User added successfully!', 'success')  # 'success' is a category; makes a green banner at the top
+            flash('User added successfully!', 'success')
         
         except Exception:
             print("Something went wrong. Please Try again")
 
-        # Redirect to home page or another page upon successful submission
         return redirect(url_for('home'))
     else:
-        # Render the form page if the request method is GET
 
         return render_template('create_user.html')
+    
+
+@app.route('/delete_user', methods=['GET', 'POST'])
+def delete_user():
+    if request.method == 'POST':
+        email = request.form['email']
+
+        try:
+            delete_user_email(email)
+            flash('User deleted successfully!', 'success')
+        
+        except Exception:
+            print("Something went wrong. Please Try again")
+
+        return redirect(url_for('home'))
+    else:
+        return render_template('delete_user.html')
+
+@app.route('/update_user', methods=['GET', 'POST'])
+def update_user():
+    if request.method == 'POST':
+        email = request.form['email']
+        firstname= request.form['first_name']
+        lastname = request.form['last_name']
+
+        try:
+
+            result = update_name(email, firstname, lastname)
+            if result.get('success'):
+                flash('User updated successfully!', 'success')
+            else:
+                flash("User update failed, please try again")
+        
+        except Exception:
+            print("Something went wrong. Please Try again")
+
+        return redirect(url_for('home'))
+    else:
+        return render_template('update_user.html')
 
 @app.route('/sign-in', methods=['GET', 'POST'])
 def sign_in():
