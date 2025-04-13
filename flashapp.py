@@ -87,6 +87,10 @@ def sign_in():
         # Render the form page if the request method is GET
         return render_template('sign-in.html')
 
+@app.route('/display_users')
+def printallemails():
+    users = print_users()
+    return render_template('show_user.html', users = users)
 
 
 if __name__ == '__main__':

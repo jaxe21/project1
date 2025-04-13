@@ -77,3 +77,8 @@ def delete_user_email(email):
 def get_top_10_of_city():
     query = ""
     return execute_query(query)
+
+def print_users():
+    response = table.scan()
+    users = response.get('Items', [])
+    return users
