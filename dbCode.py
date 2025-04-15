@@ -82,3 +82,12 @@ def print_users():
     response = table.scan()
     users = response.get('Items', [])
     return users
+
+
+def get_cities_by_country(selected_cities):
+    return 0
+
+def get_countries():
+    query = "SELECT Name FROM country ORDER BY NAME;"
+    rows = execute_query(query)
+    return [row['Name'] for row in rows]

@@ -68,7 +68,7 @@ def update_user():
             if result.get('success'):
                 flash('User updated successfully!', 'success')
             else:
-                flash("User update failed, please try again")
+                flash("User update failed, please try again", 'warning')
         
         except Exception:
             print("Something went wrong. Please Try again")
@@ -91,6 +91,29 @@ def sign_in():
 def printallemails():
     users = print_users()
     return render_template('show_user.html', users = users)
+
+@app.route('/selections', methods=['GET', 'POST'])
+def selections():
+    if request.method == 'POST':
+        selected_countries = request.form.getlist("countries")
+        first_name = request.form.get("first_name", "Guest")
+
+        if selected_countries:
+            city_matches = get_cities_by_country(selected_countries)
+        else:
+            city_matches = []
+
+        return render_template(
+            "selections.html",
+            success=True,
+            name=first_name,
+            selected_countries=", ".join(selected_countries),
+            city_matches=city_matches,
+            countries=get_countries()
+        )
+
+    countries = get_countries()
+    return render_template('selections.html', countries=countries)
 
 
 if __name__ == '__main__':
