@@ -80,13 +80,18 @@ def update_user():
 @app.route('/sign-in', methods=['GET', 'POST'])
 def sign_in():
     if request.method == 'POST':
-        # Extract form data
-        name = request.form['name']
-        return redirect(url_for('home'))
-    else:
-        # Render the form page if the request method is GET
-        return render_template('sign-in.html')
+        email = request.form['email']
+        user = table.get_item(Key = {'email': email})
 
+        if 'Item' in user:
+            firstname = user['Item'].get('First_Name', 'Guest')
+            return redirect(url_for('selections', name=firstname))
+        else:
+            flash("User does not exist. Please create an account", "warning")
+            return render_template('sign-in.html')
+    
+    return render_template('sign-in.html')
+    
 @app.route('/display_users')
 def printallemails():
     users = print_users()
@@ -96,7 +101,7 @@ def printallemails():
 def selections():
     if request.method == 'POST':
         selected_countries = request.form.getlist("countries")
-        first_name = request.form.get("first_name", "Guest")
+        name = request.form.get("name", "Guest")
 
         if selected_countries:
             city_matches = get_cities_by_country(selected_countries)
@@ -106,14 +111,14 @@ def selections():
         return render_template(
             "selections.html",
             success=True,
-            name=first_name,
+            name=name,
             selected_countries=", ".join(selected_countries),
             city_matches=city_matches,
             countries=get_countries()
         )
-
+    name = request.args.get("name", "Guest")
     countries = get_countries()
-    return render_template('selections.html', countries=countries)
+    return render_template('selections.html', countries=countries, name = name)
 
 
 if __name__ == '__main__':

@@ -10,11 +10,6 @@
     <!-- Select2 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-    </style>
 </head>
 <body>
 
@@ -22,14 +17,11 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
 
-            <h2 class="mb-4">Tell us about yourself</h2>
+            <h2 class="mb-4">Welcome, {{ name }}!</h2>
 
             <form method="POST">
+                <input type="hidden" name="name" value="{{ name }}">
 
-                <div class="mb-3">
-                    <label for="first_name" class="form-label">First Name:</label>
-                    <input type="text" name="first_name" id="first_name" class="form-control" required>
-                </div>
 
                 <div class="mb-3">
                     <label for="country-select" class="form-label">Countries:</label>
