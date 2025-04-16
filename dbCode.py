@@ -84,8 +84,21 @@ def print_users():
     return users
 
 
-def get_cities_by_country(selected_cities):
-    return 0
+def get_cities_by_country(country_names):
+    # Create the correct number of placeholders (?, ?, ?, ...) for the IN clause
+    placeholders = ','.join(['%s'] * len(country_names))
+
+    query = f"""
+        SELECT city.name AS City,
+               country.name AS Country,
+               city.population AS Population
+        FROM city
+        JOIN country ON city.countrycode = country.code
+        WHERE country.name IN ({placeholders})
+        ORDER BY city.population DESC
+        LIMIT 10;
+    """
+    return execute_query(query, country_names)
 
 def get_countries():
     query = "SELECT Name FROM country ORDER BY NAME;"

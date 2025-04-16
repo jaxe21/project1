@@ -46,7 +46,10 @@
                         <div class="card-header">Matching Cities:</div>
                         <ul class="list-group list-group-flush">
                             {% for city in city_matches %}
-                                <li class="list-group-item">{{ city.City }} ({{ city.Country }})</li>
+                            <li class="list-group-item">
+                                {{ city.City }} ({{ city.Country }}) – Population: {{ city.Population | int }}
+                            </li>
+                            
                             {% endfor %}
                         </ul>
                     </div>
