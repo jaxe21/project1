@@ -3,6 +3,17 @@
 ## James Axe
 
 
+In this project, users are able to create a profile and 
+
+
+
+
+
+
+
+
+
+
 `.gitignore`
 
 ```python
