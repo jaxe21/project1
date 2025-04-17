@@ -105,3 +105,9 @@ def get_countries():
     query = "SELECT Name FROM country ORDER BY NAME;"
     rows = execute_query(query)
     return [row['Name'] for row in rows]
+
+
+def get_user_email(email):
+    response = table.get_item(Key = {'email':email})
+    return response.get('Item')
+

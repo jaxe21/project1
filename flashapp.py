@@ -51,6 +51,12 @@ def delete_user():
         email = request.form['email']
 
         try:
+            user = get_user_email(email)
+            #If the user is not in the database this runs and redirects to home and displays the warning. If they are then next block does and deletes the user
+
+            if not user:
+                flash("Something went wrong. Please Try again", 'warning')
+                return redirect(url_for('home'))
             #If the user is in the database this runs. If not then next block does and redirects to home and displays the warning.
             delete_user_email(email)
             flash('User deleted successfully!', 'success')
