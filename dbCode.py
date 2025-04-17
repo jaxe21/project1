@@ -9,6 +9,7 @@ dynamodb = boto3.resource('dynamodb', region_name="us-east-1")
 table = dynamodb.Table(TABLE_NAME)
 
 def get_conn():
+    #This code connects VScode to the SQL database.
     return pymysql.connect(
         host = creds.host,
         user=creds.user,
@@ -19,6 +20,7 @@ def get_conn():
 
 
 def execute_query(query, args = ()):
+    #This code uses that connection from get_conn and sends and query and returns the results.
     conn = get_conn()
     try:
         with conn.cursor() as cur:
@@ -29,11 +31,13 @@ def execute_query(query, args = ()):
         conn.close()
 
 def get_list_of_dictionaries():
+    #This is a simple sql query that helps test the connection to the database.
     query = "SELECT Name, Population FROM country LIMIT 10;"
     return execute_query(query)
 
 
 def add_new_user(email, firstname, lastname):
+    #This code takes responses from the flashapp and creat_user.html file and puts them into the noSQL database in dyanmoDB. It returns the result of the response.
     response = table.put_item(
         Item ={
             'email': email,
@@ -44,18 +48,14 @@ def add_new_user(email, firstname, lastname):
     return response
 
 def update_name(email, firstname, lastname):
-    print(f"Received request to update user: {email} -> {firstname} {lastname}")
+    #This code checks to see if the user is in the database, takes a new name and then updates that in the noSQL database in dynamoDB.
 
     existing_user = table.get_item(Key={'email': email})
-    print("Existing user response:", existing_user)
-
     if 'Item' not in existing_user:
         print("User not found.")
 
-        #This line of code runs if the user doesn't exist.
         return {"success": False, "reason": "User not found"}
 
-    # If the user exists, then this code will run and update their name
     response = table.update_item(
         Key={'email': email},
         UpdateExpression= 'SET First_Name = :f, Last_Name = :l',
@@ -70,22 +70,22 @@ def update_name(email, firstname, lastname):
 
 
 def delete_user_email(email):
+    #This code finds the given email and deletes it from the noSQL database in dynamoDB,
     response = table.delete_item(Key={
         'email': email})
     return response
 
-def get_top_10_of_city():
-    query = ""
-    return execute_query(query)
+
 
 def print_users():
+    #This takes all the users in the dyanmo db database and returns them back to the flashapp.
     response = table.scan()
     users = response.get('Items', [])
     return users
 
 
 def get_cities_by_country(country_names):
-    # Create the correct number of placeholders (?, ?, ?, ...) for the IN clause
+   #This sends a SQL query based on the countries selected and stores them in the placeholder variable. It executes the query and returns it to flashapp.
     placeholders = ','.join(['%s'] * len(country_names))
 
     query = f"""
@@ -101,6 +101,7 @@ def get_cities_by_country(country_names):
     return execute_query(query, country_names)
 
 def get_countries():
+    #This gets all the countries in the database and returns them to the flashapp allowing them to be selected on the selections page.
     query = "SELECT Name FROM country ORDER BY NAME;"
     rows = execute_query(query)
     return [row['Name'] for row in rows]

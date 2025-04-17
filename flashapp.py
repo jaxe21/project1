@@ -7,44 +7,51 @@ app = Flask(__name__)
 app.secret_key = 'your_secret_key' # this is an artifact for using flash displays; 
                                    # it is required, but you can leave this alone
 
+
+#This just is the home page for my website. It has the buttons to the rest of my website.
 @app.route('/')
 def home():
     return render_template('home.html')
 
+#This code is used for testing the connection to the database. It send the query of getting the first 10 countries.
 @app.route("/index")
 def index():
     countries = get_list_of_dictionaries()
     print("Countries:", countries)
     return render_template("index.html", results = countries)
 
-
+ 
 @app.route('/create_user', methods=['GET', 'POST'])
 def create_user():
     if request.method == 'POST':
-        # Extract form data
+        # Takes the data from the submission and stores it as variables. 
         email = request.form['email']
         firstname= request.form['first_name']
         lastname = request.form['last_name']
-
+        
+        #Takes the variables and uses the add new user function to add them to the databae.
         try:
             add_new_user(email, firstname, lastname)
             flash('User added successfully!', 'success')
         
+        #If the addition fails this code block runs and asks the user to try again.
         except Exception:
             print("Something went wrong. Please Try again")
-
+        #The user is returned to the home page
         return redirect(url_for('home'))
     else:
-
+        #The user is brought back to the create_user page to try again
         return render_template('create_user.html')
     
 
 @app.route('/delete_user', methods=['GET', 'POST'])
 def delete_user():
+    #Takes user input to delete the given email from the database.
     if request.method == 'POST':
         email = request.form['email']
 
         try:
+            #If the user is in the database this runs. If not then next block does.
             delete_user_email(email)
             flash('User deleted successfully!', 'success')
         
