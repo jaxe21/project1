@@ -14,5 +14,5 @@ If you prefer not to download the files, it is still usable! Users are able to r
 This code relies on the user having Flask, pymysql, and boto3 installed on their terminal. The requirements file is included in the repository, so you just need to download Flask, pymysql, and boto3 as they're imported through the dbcode file. Having a strong internet connection is also a must for this code to run. 
 
 
-#### Credits
+## Credits
 ChatGPT helped me create the selection's HTML page. I described some of the features I wanted it to have, such as being able to select multiple countries, having it autofill, and also displaying the table. Having never used HTML before, I wasn't quite sure how to do this request, and ChatGPT was able to guide me in the right direction for it.
